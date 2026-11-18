@@ -9,12 +9,16 @@ export const faq = [
     r: 'Oui, c’est notre activité principale. Nous intervenons en sous-traitance de rang 1 ou 2 pour des intégrateurs, des opérateurs et des exploitants de réseaux d’initiative publique, sur bon de commande ou dans un cadre de sous-traitance existant.',
   },
   {
-    q: 'Quels types de raccordement réalisez-vous ?',
-    r: 'Le branchement D3 du PBO jusqu’à la PTO dans tous les cas courants : souterrain en conduite, aérien sur poteau, cheminement en façade, colonne montante et parties communes d’immeuble, pavillon individuel.',
+    q: 'Quels travaux réalisez-vous sur le réseau ?',
+    r: 'Le déploiement du réseau de distribution (D2), du SRO jusqu’aux PBO : tirage de câbles en souterrain, en aérien et en façade, pose des PBO et des BPE, soudure par fusion selon le plan de boîte, mesures de recette. Nous assurons aussi la maintenance, les reprises de malfaçon et le dépannage de ce réseau.',
+  },
+  {
+    q: 'Faites-vous le raccordement des abonnés (D3) ?',
+    r: 'Pas pour l’instant. Notre activité est le réseau de distribution, jusqu’au PBO. Le raccordement client final viendra dans un second temps.',
   },
   {
     q: 'Que contient le compte rendu d’intervention ?',
-    r: 'Des photos avant et après du PBO, du cheminement et de la PTO, les valeurs de mesure relevées, la référence de la prise et toute réserve constatée sur le site. Nous l’adaptons au format de votre outil ou de votre plateforme de suivi.',
+    r: 'Des photos des boîtiers ouverts et refermés, des chambres et des cheminements, les fichiers de mesure, les réserves constatées sur le site et les éléments utiles au DOE. Nous l’adaptons au format de votre outil ou de votre plateforme de suivi.',
   },
   {
     q: 'Pouvez-vous reprendre les malfaçons signalées sur un réseau ?',
@@ -26,6 +30,6 @@ export const faq = [
   },
   {
     q: 'Les syndics et les bailleurs peuvent-ils faire appel à vous ?',
-    r: 'Pour un diagnostic, un contrôle de colonne montante ou la remise en état de boîtiers dégradés dans les parties communes, oui, en accord avec l’opérateur d’immeuble. Le raccordement d’un logement, lui, passe toujours par l’opérateur du client.',
+    r: 'Pour un contrôle de colonne montante ou la remise en état de boîtiers dégradés dans les parties communes, oui, en accord avec l’opérateur d’immeuble. Le raccordement d’un logement, lui, passe toujours par l’opérateur du client.',
   },
 ];

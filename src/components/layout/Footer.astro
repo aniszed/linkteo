@@ -14,7 +14,7 @@ const liensLegaux = [
     <div>
       <a href="/" class="inline-block text-white" aria-label="Linkteo, accueil"><Logo class="h-9 w-auto" /></a>
       <p class="mt-4 max-w-sm text-[0.95rem]">
-        Raccordement, SAV et maintenance de réseaux fibre optique en sous-traitance, en Île-de-France.
+        Déploiement, soudure et maintenance de réseaux fibre optique en sous-traitance, en Île-de-France.
       </p>
       <address class="mt-5 text-[0.95rem] not-italic leading-relaxed">
         {entreprise.formeJuridique.replace(/ \(SAS\)$/, '')} {entreprise.raisonSociale}<br />
@@ -38,7 +38,7 @@ const liensLegaux = [
       <p class="repere text-brume">Zones d’intervention</p>
       <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-[0.95rem]">
         {zonesCouvertes.map((z) => {
-          const href = `/zones/${z.slug}`;
+          const href = `/zone-intervention#dep-${z.code}`;
           return <li>{estPubliee(href) ? <a class="hover:text-white" href={href}>{z.nom} ({z.code})</a> : <span>{z.nom} ({z.code})</span>}</li>;
         })}
       </ul>

@@ -17,7 +17,7 @@ const prestations = defineCollection({
     nom: z.string(),
     /** Type de service pour le JSON-LD. */
     serviceType: z.string(),
-    icone: z.enum(['raccordement', 'sav', 'maintenance', 'malfacon', 'mesure', 'poteau']),
+    icone: z.enum(['raccordement', 'sav', 'maintenance', 'malfacon', 'mesure', 'poteau', 'soudure']),
     chapo: z.string(),
     /** Points clés affichés à côté du chapô. */
     essentiel: z.array(z.string()).min(3).max(6),

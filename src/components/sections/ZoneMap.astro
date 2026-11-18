@@ -1,25 +1,12 @@
 ---
 import SectionTitre from '~/components/ui/SectionTitre.astro';
 import Icon from '~/components/icons/Icon.astro';
-import { idfDepartements, idfViewBox } from '~/data/idf-map';
+import CarteIdf from '~/components/diagrams/CarteIdf.astro';
 import { zones, estPubliee } from '~/content/site-config';
 
-// Petite couronne : étiquettes décalées pour rester lisibles.
-const decalages: Record<string, [number, number]> = {
-  '75': [2, 4],
-  '92': [-12, 10],
-  '93': [10, -10],
-  '94': [8, 14],
-};
-
-const parCode = new Map(zones.map((z) => [z.code, z]));
-const carte = idfDepartements.map((d) => {
-  const z = parCode.get(d.code);
-  const [dx, dy] = decalages[d.code] ?? [0, 0];
-  return { ...d, zone: z, lx: d.cx + dx, ly: d.cy + dy };
-});
+const pageZones = '/zone-intervention';
+const lienZones = estPubliee(pageZones);
 const couvertes = zones.filter((z) => z.couvert);
-const autres = zones.filter((z) => !z.couvert);
 ---
 <section id="zones" aria-labelledby="zones-titre" class="py-16 md:py-24">
   <div class="conteneur grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
@@ -30,52 +17,33 @@ const autres = zones.filter((z) => !z.couvert);
       </SectionTitre>
 
       <ul class="mt-8 grid grid-cols-1 gap-2 sm:grid-cols-2">
-        {couvertes.map((z) => {
-          const href = `/zones/${z.slug}`;
-          return (
-            <li class="flex items-center gap-3 rounded-md border border-filet px-4 py-3">
-              <span class="font-display text-lg font-bold text-orange-fonce">{z.code}</span>
-              {estPubliee(href) ? <a class="lien" href={href}>{z.nom}</a> : <span class="font-medium text-nuit">{z.nom}</span>}
-            </li>
-          );
-        })}
+        {couvertes.map((z) => (
+          <li>
+            {lienZones ? (
+              <a href={`${pageZones}#dep-${z.code}`} class="group flex items-center gap-3 rounded-md border border-filet px-4 py-3 hover:border-nuit">
+                <span class="font-display text-lg font-bold text-orange-fonce">{z.code}</span>
+                <span class="font-medium text-nuit group-hover:underline">{z.nom}</span>
+              </a>
+            ) : (
+              <span class="flex items-center gap-3 rounded-md border border-filet px-4 py-3">
+                <span class="font-display text-lg font-bold text-orange-fonce">{z.code}</span>
+                <span class="font-medium text-nuit">{z.nom}</span>
+              </span>
+            )}
+          </li>
+        ))}
       </ul>
-      {autres.length > 0 && (
-        <p class="mt-5 flex gap-2 text-[0.95rem] text-ardoise">
-          <Icon name="repere" class="mt-0.5 size-5 shrink-0" />
-          {autres.map((z) => `${z.nom} (${z.code})`).join(' et ')} : nous consulter selon le volume et la localisation.
-        </p>
+      {lienZones && (
+        <a href={pageZones} class="lien mt-6 inline-flex items-center gap-1.5">
+          Le terrain, département par département<Icon name="fleche" class="size-4" />
+        </a>
       )}
     </div>
 
     <figure class="apparait">
-      <svg viewBox={idfViewBox} class="h-auto w-full" role="img" aria-labelledby="carte-titre">
-        <title id="carte-titre">Carte de l’Île-de-France : {couvertes.map((z) => `${z.nom} (${z.code})`).join(', ')} couverts</title>
-        {carte.map((d) => (
-          <path
-            d={d.d}
-            fill={d.zone?.couvert ? '#0b1f33' : '#f5f7f9'}
-            stroke={d.zone?.couvert ? '#ffffff' : '#a9b7c6'}
-            stroke-width="1.5"
-            stroke-linejoin="round"
-          />
-        ))}
-        {carte.map((d) => (
-          <text
-            x={d.lx}
-            y={d.ly}
-            text-anchor="middle"
-            dominant-baseline="middle"
-            font-family="Space Grotesk, sans-serif"
-            font-weight="700"
-            font-size={['75', '92', '93', '94'].includes(d.code) ? 13 : 18}
-            fill={d.zone?.couvert ? (d.code === '75' ? '#ff6a13' : '#ffffff') : '#4a5868'}
-          >{d.code}</text>
-        ))}
-      </svg>
+      <CarteIdf />
       <figcaption class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ardoise">
         <span class="flex items-center gap-2"><span class="size-3.5 rounded-sm bg-nuit" aria-hidden="true"></span>Départements couverts</span>
-        {autres.length > 0 && <span class="flex items-center gap-2"><span class="size-3.5 rounded-sm bg-surface ring-1 ring-brume" aria-hidden="true"></span>Sur demande</span>}
         <span class="text-xs">Contours : IGN Admin Express, Licence Ouverte</span>
       </figcaption>
     </figure>

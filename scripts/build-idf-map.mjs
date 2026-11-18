@@ -34,11 +34,12 @@ const tx = ([x, y]) => [(x - minX) * s + PAD, (y - minY) * s + PAD];
 const r1 = (n) => Math.round(n * 10) / 10;
 
 const out = feats.map((f) => {
-  let d = '', A = 0, Cx = 0, Cy = 0;
+  let d = '', A = 0, Cx = 0, Cy = 0, bx0 = Infinity, by0 = Infinity, bx1 = -Infinity, by1 = -Infinity;
   for (const poly of rings(f.geometry)) {
     for (const ring of poly) {
       const pts = ring.map((p) => tx(proj(p)));
       d += 'M' + pts.map(([x, y]) => `${r1(x)} ${r1(y)}`).join('L') + 'Z';
+      for (const [x, y] of pts) { bx0 = Math.min(bx0, x); by0 = Math.min(by0, y); bx1 = Math.max(bx1, x); by1 = Math.max(by1, y); }
     }
     const pts = poly[0].map((p) => tx(proj(p)));
     for (let i = 0; i < pts.length - 1; i++) {
@@ -48,13 +49,13 @@ const out = feats.map((f) => {
     }
   }
   A /= 2;
-  return { code: String(f.properties.code), d, cx: r1(Cx / (6 * A)), cy: r1(Cy / (6 * A)) };
+  return { code: String(f.properties.code), d, cx: r1(Cx / (6 * A)), cy: r1(Cy / (6 * A)), bbox: [r1(bx0), r1(by0), r1(bx1), r1(by1)] };
 }).sort((a, b) => CODES.indexOf(a.code) - CODES.indexOf(b.code));
 
 const ts = `// Fichier généré par scripts/build-idf-map.mjs — ne pas modifier à la main.
 // Contours : IGN Admin Express via france-geojson, Licence Ouverte / Etalab.
 export const idfViewBox = '0 0 ${W} ${H}';
-export const idfDepartements: { code: string; d: string; cx: number; cy: number }[] = ${JSON.stringify(out, null, 1)};
+export const idfDepartements: { code: string; d: string; cx: number; cy: number; bbox: [number, number, number, number] }[] = ${JSON.stringify(out, null, 1)};
 `;
 fs.writeFileSync(new URL('../src/data/idf-map.ts', import.meta.url), ts);
 console.log(`OK : ${out.length} départements, viewBox 0 0 ${W} ${H}, ${(ts.length / 1024).toFixed(1)} Ko`);

@@ -60,7 +60,7 @@ Les audits de réseau remontent régulièrement les mêmes défauts :
 - PBO mal refermé ou cassette sortie de son logement ;
 - câbles non lovés, surlongueurs en vrac, rayon de courbure non respecté ;
 - étiquetage absent ou erroné ;
-- cheminement de branchement non conforme aux règles d'ingénierie ;
+- cheminement de câble non conforme aux règles d'ingénierie ;
 - soudure ou connecteur défectueux.
 
 Nous traitons ces listes point par point. Pour chaque ligne : **photo avant, reprise, photo après**,

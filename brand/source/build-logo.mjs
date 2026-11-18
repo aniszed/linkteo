@@ -71,8 +71,8 @@ await png(favicon, 32, 'favicon-32.png');
 const ogWord = textPath(bold, 'linkteo', 0, 0, 1, 0).width; // em width
 const s = 4; const oy = 140;
 const ogWordPath = textPath(bold, 'linkteo', 96 + 56 * s, oy + 33.5 * s, 28 * s, -0.5 * s);
-const tag1 = textPath(medium, 'Raccordement, SAV et maintenance fibre optique', 96, 430, 40, 0);
-const tag2 = textPath(medium, 'Sous-traitance FTTH · Île-de-France', 96, 488, 40, 0);
+const tag1 = textPath(medium, 'Déploiement, soudure et maintenance fibre optique', 96, 430, 40, 0);
+const tag2 = textPath(medium, 'Sous-traitance FTTH D2 · Île-de-France', 96, 488, 40, 0);
 const og = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
   <rect width="1200" height="630" fill="${NAVY}"/>
   <path d="M96 600H1104" stroke="${ORANGE}" stroke-width="6"/>

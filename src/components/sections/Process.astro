@@ -7,32 +7,32 @@ const etapes = [
     icone: 'email',
     titre: 'Demande',
     texte:
-      'Vous envoyez l’adresse, la référence de prise ou de commande et le type d’intervention. Pour un volume, une liste suffit.',
+      'Le conducteur de travaux nous transmet le dossier : secteur, plans et synoptique, plans de boîte, délais.',
   },
   {
     icone: 'calendrier',
     titre: 'Planification',
     texte:
-      'Nous confirmons le créneau, l’accès au site (badge, syndic, client final) et le matériel nécessaire avant de nous déplacer.',
+      'Nous vérifions le dossier, signalons ce qui manque, puis confirmons les dates, les accès (chambres, appuis, immeubles) et le matériel.',
   },
   {
     icone: 'outil',
     titre: 'Intervention',
     texte:
-      'Travail selon les règles d’ingénierie de l’opérateur d’infrastructure : cheminement propre, lovage, étiquetage, chantier balisé.',
+      'Tirage, pose des boîtiers et soudure selon les règles d’ingénierie de l’opérateur d’infrastructure : lovage, étiquetage, chantier balisé.',
   },
   {
     icone: 'rapport',
     titre: 'Compte rendu',
     texte:
-      'Photos avant et après (PBO, cheminement, PTO), valeurs de mesure et fiche d’intervention au format demandé par le donneur d’ordre.',
+      'Photos des boîtiers et des cheminements, mesures de recette, réserves et éléments pour le DOE, au format demandé.',
   },
 ] as const;
 ---
 <section aria-labelledby="process-titre" class="border-y border-filet bg-surface py-16 md:py-24">
   <div class="conteneur">
     <SectionTitre numero="02" repere="Méthode" titre="Comment se passe une intervention" id="process-titre">
-      Quatre étapes, les mêmes pour un raccordement isolé ou une série de reprises.
+      Quatre étapes, les mêmes pour un dossier de déploiement ou une série de reprises.
     </SectionTitre>
 
     <ol class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">

@@ -14,7 +14,10 @@ import { breadcrumbLd, faqLd, serviceLd } from '~/lib/schema';
 
 export const getStaticPaths = (async () => {
   const pages = await getCollection('prestations');
-  return pages.map((entry) => ({ params: { prestation: entry.id }, props: { entry } }));
+  // Seules les pages listées dans pagesPubliees sont générées (le D3 reste en brouillon).
+  return pages
+    .filter((entry) => estPubliee(`/${entry.id}`))
+    .map((entry) => ({ params: { prestation: entry.id }, props: { entry } }));
 }) satisfies GetStaticPaths;
 
 interface Props {

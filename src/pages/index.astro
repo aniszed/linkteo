@@ -34,7 +34,7 @@ const localBusiness = {
   areaServed: zones
     .filter((z) => z.couvert)
     .map((z) => ({ '@type': 'AdministrativeArea', name: `${z.nom} (${z.code})` })),
-  knowsAbout: ['FTTH', 'Raccordement fibre optique', 'Réflectométrie OTDR', 'Maintenance de réseaux optiques'],
+  knowsAbout: ['FTTH', 'Réseau de distribution D2', 'Soudure fibre optique par fusion', 'Réflectométrie OTDR', 'Maintenance de réseaux optiques'],
   hasOfferCatalog: {
     '@type': 'OfferCatalog',
     name: 'Prestations fibre optique',

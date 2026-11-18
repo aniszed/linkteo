@@ -1,0 +1,73 @@
+---
+/**
+ * Carte de l'Île-de-France (contours IGN Admin Express, Licence Ouverte).
+ * `zoom` ajoute un encart agrandi de Paris et de la petite couronne.
+ * `ancres` rend chaque département cliquable vers #dep-<code> (page zone d'intervention).
+ */
+import { idfDepartements, idfViewBox } from '~/data/idf-map';
+import { zones } from '~/content/site-config';
+
+interface Props {
+  zoom?: boolean;
+  ancres?: boolean;
+  class?: string;
+}
+const { zoom = false, ancres = false, class: className = '' } = Astro.props;
+
+const PETITE = ['75', '92', '93', '94'];
+const parCode = new Map(zones.map((z) => [z.code, z]));
+const deps = idfDepartements.map((d) => ({ ...d, zone: parCode.get(d.code) }));
+const couvertes = zones.filter((z) => z.couvert);
+
+// Cadre de l'encart : enveloppe de la petite couronne + marge.
+const pc = deps.filter((d) => PETITE.includes(d.code));
+const m = 4;
+const x0 = Math.min(...pc.map((d) => d.bbox[0])) - m;
+const y0 = Math.min(...pc.map((d) => d.bbox[1])) - m;
+const x1 = Math.max(...pc.map((d) => d.bbox[2])) + m;
+const y1 = Math.max(...pc.map((d) => d.bbox[3])) + m;
+const zoomBox = `${x0} ${y0} ${x1 - x0} ${y1 - y0}`;
+const echelle = (x1 - x0) / 600; // taille relative du texte dans l'encart
+
+// Étiquettes décalées dans la carte générale (petite couronne serrée).
+const decalages: Record<string, [number, number]> = { '75': [2, 4], '92': [-12, 10], '93': [10, -10], '94': [8, 14] };
+
+const fill = (d: (typeof deps)[number]) => (d.zone?.couvert ? '#0b1f33' : '#f5f7f9');
+const titre = `Carte de l’Île-de-France : ${couvertes.map((z) => `${z.nom} (${z.code})`).join(', ')}`;
+---
+<div class:list={['grid gap-4', zoom && 'sm:grid-cols-[1.6fr_1fr] sm:items-center', className]}>
+  <svg viewBox={idfViewBox} class="h-auto w-full" role="img" aria-label={titre}>
+    {deps.map((d) => {
+      const forme = <path d={d.d} fill={fill(d)} stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" class={ancres ? 'transition-colors hover:fill-[#1d4266]' : undefined} />;
+      return ancres ? <a href={`#dep-${d.code}`} aria-label={`${d.zone?.nom} (${d.code})`}>{forme}</a> : forme;
+    })}
+    {zoom && <rect x={x0} y={y0} width={x1 - x0} height={y1 - y0} fill="none" stroke="#ff6a13" stroke-width="2" stroke-dasharray="5 4" rx="3" />}
+    {deps.map((d) => {
+      const petite = PETITE.includes(d.code);
+      if (zoom && petite) return null;
+      const [dx, dy] = decalages[d.code] ?? [0, 0];
+      return (
+        <text x={d.cx + dx} y={d.cy + dy} text-anchor="middle" dominant-baseline="middle" pointer-events="none"
+          font-family="Space Grotesk, sans-serif" font-weight="700" font-size={petite ? 13 : 18}
+          fill={d.code === '75' ? '#ff6a13' : '#ffffff'}>{d.code}</text>
+      );
+    })}
+  </svg>
+
+  {zoom && (
+    <figure class="rounded-md border border-filet bg-white p-3">
+      <svg viewBox={zoomBox} class="h-auto w-full" role="img" aria-label="Zoom sur Paris et la petite couronne : Paris, Hauts-de-Seine, Seine-Saint-Denis, Val-de-Marne">
+        {pc.map((d) => {
+          const forme = <path d={d.d} fill={fill(d)} stroke="#ffffff" stroke-width={1.5 * echelle} stroke-linejoin="round" class={ancres ? 'transition-colors hover:fill-[#1d4266]' : undefined} />;
+          return ancres ? <a href={`#dep-${d.code}`} aria-label={`${d.zone?.nom} (${d.code})`}>{forme}</a> : forme;
+        })}
+        {pc.map((d) => (
+          <text x={d.cx} y={d.cy} text-anchor="middle" dominant-baseline="middle" pointer-events="none"
+            font-family="Space Grotesk, sans-serif" font-weight="700" font-size={46 * echelle}
+            fill={d.code === '75' ? '#ff6a13' : '#ffffff'}>{d.code}</text>
+        ))}
+      </svg>
+      <figcaption class="mt-2 text-center text-sm text-ardoise">Paris et petite couronne</figcaption>
+    </figure>
+  )}
+</div>

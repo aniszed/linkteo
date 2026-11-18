@@ -103,7 +103,8 @@ export type IconName =
   | 'maintenance'
   | 'malfacon'
   | 'mesure'
-  | 'poteau';
+  | 'poteau'
+  | 'soudure';
 
 export interface Prestation {
   id: string;
@@ -114,54 +115,58 @@ export interface Prestation {
   page: string;
 }
 
+// Cœur de métier : le D2 (distribution, du SRO aux PBO).
+// Le raccordement client final (D3) n'est pas proposé pour l'instant : sa page existe
+// (src/content/prestations/raccordement-fibre-optique.md) mais n'est pas publiée.
+// TODO: le jour où le D3 démarre, ajouter '/raccordement-fibre-optique' à pagesPubliees et une entrée ici.
 export const prestations: Prestation[] = [
   {
-    id: 'raccordement',
-    icone: 'raccordement',
-    titre: 'Raccordement client final (D3)',
-    resume: 'Tirage du câble de branchement du PBO jusqu’au logement, pose et test de la PTO.',
-    points: ['Souterrain, aérien et façade', 'Immeuble et pavillon', 'Photos PBO et PTO à la clôture'],
-    page: '/raccordement-fibre-optique',
+    id: 'deploiement',
+    icone: 'poteau',
+    titre: 'Déploiement du réseau de distribution (D2)',
+    resume: 'Tirage des câbles de distribution du SRO aux PBO, en souterrain, en aérien et en façade, et pose des boîtiers.',
+    points: ['Fourreaux et chambres, poteaux, façades', 'Pose de PBO et de BPE', 'Lovage et étiquetage'],
+    page: '/deploiement-fibre-optique-d2',
   },
   {
-    id: 'sav',
-    icone: 'sav',
-    titre: 'SAV et dépannage',
-    resume: 'Diagnostic et remise en service sur des liens déjà raccordés : coupure, affaiblissement, PTO endommagée.',
-    points: ['Localisation du défaut', 'Reprise de soudure ou de connecteur', 'Compte rendu de cause'],
-    page: '/sav-depannage-fibre-optique',
+    id: 'soudure',
+    icone: 'soudure',
+    titre: 'Soudure et raccordement de boîtiers',
+    resume: 'Épissures par fusion dans les BPE et les PBO selon le plan de boîte du bureau d’études, piquages sur câble.',
+    points: ['Soudure par fusion', 'Respect du plan d’épissurage', 'Cassettes rangées, fibres repérées'],
+    page: '/deploiement-fibre-optique-d2#soudure',
+  },
+  {
+    id: 'mesure',
+    icone: 'mesure',
+    titre: 'Mesures et recette',
+    resume: 'Recette des liens par réflectométrie et photométrie, avec fichiers de mesure exploitables.',
+    points: ['Mesure OTDR', 'Photométrie (puissance, affaiblissement)', 'Fichiers .sor et rapport'],
+    page: '/mesures-controles-optiques',
   },
   {
     id: 'maintenance',
     icone: 'maintenance',
     titre: 'Maintenance préventive et curative',
-    resume: 'Contrôle et remise en état des points de branchement et des boîtiers sur le réseau de distribution.',
-    points: ['PBO, boîtiers d’étage, colonnes', 'Remise en ordre du brassage', 'Étiquetage et lovage'],
+    resume: 'Contrôle et remise en état des PBO, des boîtiers et des sous-répartiteurs du réseau de distribution.',
+    points: ['PBO, BPE, boîtiers d’étage', 'Remise en ordre du brassage, selon consignes', 'Étiquetage et lovage'],
     page: '/maintenance-reseau-ftth',
   },
   {
     id: 'malfacon',
     icone: 'malfacon',
     titre: 'Reprises de malfaçon',
-    resume: 'Reprise des raccordements non conformes signalés par l’opérateur d’infrastructure ou lors d’un audit.',
+    resume: 'Reprise des non-conformités relevées par l’opérateur d’infrastructure ou lors d’un audit de réseau.',
     points: ['Traitement de listes de reprises', 'Avant / après photographié', 'Mise en conformité aux règles d’ingénierie'],
     page: '/maintenance-reseau-ftth#malfacons',
   },
   {
-    id: 'mesure',
-    icone: 'mesure',
-    titre: 'Mesures et contrôles optiques',
-    resume: 'Recette et diagnostic par réflectométrie et photométrie, avec fichiers de mesure exploitables.',
-    points: ['Mesure OTDR', 'Photométrie (puissance, affaiblissement)', 'Fichiers .sor et rapport'],
-    page: '/mesures-controles-optiques',
-  },
-  {
-    id: 'poteau',
-    icone: 'poteau',
-    titre: 'Poteaux et façades',
-    resume: 'Interventions en hauteur sur le réseau aérien : ancrages, passages en façade, boîtiers sur poteau.',
-    points: ['Pose d’ancrages et de supports', 'Cheminement en façade', 'Balisage du chantier'],
-    page: '/raccordement-fibre-optique#aerien-facade',
+    id: 'sav',
+    icone: 'sav',
+    titre: 'Dépannage réseau',
+    resume: 'Localisation et réparation des coupures et des défauts sur le réseau de distribution : câble sectionné, boîtier endommagé.',
+    points: ['Localisation à l’OTDR', 'Reprise d’épissures ou de câble', 'Compte rendu de cause'],
+    page: '/sav-depannage-fibre-optique',
   },
 ];
 
@@ -169,22 +174,62 @@ export const prestations: Prestation[] = [
 // Zones d'intervention (départements d'Île-de-France)
 // `couvert: false` = affiché sur la carte, mais hors zone principale.
 // ---------------------------------------------------------------------------
+export type Couronne = 'paris' | 'petite' | 'grande';
+
 export interface Zone {
   code: string;
   nom: string;
-  slug: string; // URL : /zones/<slug>
+  /** URL d'une future page départementale : /zones/<slug>. Créée quand il y aura des chantiers à montrer. */
+  slug: string;
   couvert: boolean;
+  couronne: Couronne;
+  /** Ce qui caractérise le terrain pour un technicien fibre. Faits généraux, vérifiables. */
+  terrain: string;
+  /** Principales communes, citées à titre de repère. */
+  communes: string[];
 }
 
 export const zones: Zone[] = [
-  { code: '75', nom: 'Paris', slug: 'paris', couvert: true },
-  { code: '77', nom: 'Seine-et-Marne', slug: 'seine-et-marne', couvert: true },
-  { code: '78', nom: 'Yvelines', slug: 'yvelines', couvert: true },
-  { code: '91', nom: 'Essonne', slug: 'essonne', couvert: true },
-  { code: '92', nom: 'Hauts-de-Seine', slug: 'hauts-de-seine', couvert: true },
-  { code: '93', nom: 'Seine-Saint-Denis', slug: 'seine-saint-denis', couvert: true },
-  { code: '94', nom: 'Val-de-Marne', slug: 'val-de-marne', couvert: true },
-  { code: '95', nom: 'Val-d’Oise', slug: 'val-d-oise', couvert: true },
+  {
+    code: '75', nom: 'Paris', slug: 'paris', couvert: true, couronne: 'paris',
+    terrain: 'Immeubles collectifs anciens et récents : colonnes montantes, boîtiers d’étage, gaines techniques. Accès à organiser (gardien, syndic, badge) et stationnement contraint.',
+    communes: ['Les 20 arrondissements'],
+  },
+  {
+    code: '92', nom: 'Hauts-de-Seine', slug: 'hauts-de-seine', couvert: true, couronne: 'petite',
+    terrain: 'Habitat collectif dense, quartiers de bureaux et zones pavillonnaires. Réseau surtout en immeuble et en souterrain.',
+    communes: ['Nanterre', 'Boulogne-Billancourt', 'Colombes', 'Courbevoie', 'Rueil-Malmaison', 'Antony'],
+  },
+  {
+    code: '93', nom: 'Seine-Saint-Denis', slug: 'seine-saint-denis', couvert: true, couronne: 'petite',
+    terrain: 'Grands ensembles et résidences de bailleurs sociaux, centres-villes denses et pavillonnaire. Les interventions en parties communes se coordonnent avec le gestionnaire.',
+    communes: ['Saint-Denis', 'Montreuil', 'Aubervilliers', 'Aulnay-sous-Bois', 'Noisy-le-Grand', 'Bobigny'],
+  },
+  {
+    code: '94', nom: 'Val-de-Marne', slug: 'val-de-marne', couvert: true, couronne: 'petite',
+    terrain: 'Alternance de collectif dense et de grands secteurs pavillonnaires, avec un réseau en façade et en souterrain.',
+    communes: ['Créteil', 'Vitry-sur-Seine', 'Champigny-sur-Marne', 'Saint-Maur-des-Fossés', 'Ivry-sur-Seine'],
+  },
+  {
+    code: '77', nom: 'Seine-et-Marne', slug: 'seine-et-marne', couvert: true, couronne: 'grande',
+    terrain: 'Le plus vaste département d’Île-de-France : villes nouvelles, périurbain et villages. Réseau aérien fréquent hors des centres, temps de trajet à intégrer au planning.',
+    communes: ['Meaux', 'Chelles', 'Melun', 'Pontault-Combault', 'Savigny-le-Temple'],
+  },
+  {
+    code: '78', nom: 'Yvelines', slug: 'yvelines', couvert: true, couronne: 'grande',
+    terrain: 'Villes résidentielles, vallée de la Seine et secteurs ruraux à l’ouest. Mélange de souterrain en ville et d’aérien sur poteaux en périphérie.',
+    communes: ['Versailles', 'Sartrouville', 'Mantes-la-Jolie', 'Saint-Germain-en-Laye', 'Poissy'],
+  },
+  {
+    code: '91', nom: 'Essonne', slug: 'essonne', couvert: true, couronne: 'grande',
+    terrain: 'Agglomérations au nord, plateau de Saclay, sud rural. Pavillonnaire dominant, réseau aérien et en façade fréquent.',
+    communes: ['Évry-Courcouronnes', 'Corbeil-Essonnes', 'Massy', 'Palaiseau', 'Savigny-sur-Orge'],
+  },
+  {
+    code: '95', nom: 'Val-d’Oise', slug: 'val-d-oise', couvert: true, couronne: 'grande',
+    terrain: 'Agglomération dense au sud-est, ville nouvelle de Cergy-Pontoise, Vexin rural au nord-ouest. Beaucoup de pavillonnaire et de réseau aérien.',
+    communes: ['Argenteuil', 'Cergy', 'Sarcelles', 'Garges-lès-Gonesse', 'Pontoise', 'Franconville'],
+  },
 ];
 
 // ---------------------------------------------------------------------------
@@ -196,11 +241,12 @@ export const zones: Zone[] = [
  */
 export const pagesPubliees: string[] = [
   '/',
-  '/raccordement-fibre-optique',
+  '/deploiement-fibre-optique-d2',
   '/sav-depannage-fibre-optique',
   '/maintenance-reseau-ftth',
   '/mesures-controles-optiques',
   '/sous-traitance-fibre-optique',
+  '/zone-intervention',
   '/mentions-legales',
   '/politique-de-confidentialite',
 ];
@@ -210,7 +256,7 @@ export const estPubliee = (href: string): boolean => pagesPubliees.includes(href
 export const navigation = [
   { label: 'Prestations', href: '/#prestations' },
   { label: 'Sous-traitance', href: '/sous-traitance-fibre-optique' },
-  { label: 'Zones', href: '/#zones' },
+  { label: 'Zones', href: '/zone-intervention' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'Contact', href: '/#contact' },
 ] as const;
@@ -220,9 +266,9 @@ export const navigation = [
 // ---------------------------------------------------------------------------
 export const seo = {
   accueil: {
-    title: 'Linkteo — Sous-traitant fibre optique en Île-de-France (FTTH)',
+    title: 'Linkteo — Sous-traitant fibre optique D2 en Île-de-France',
     description:
-      'Raccordement D3, SAV, maintenance FTTH, reprises de malfaçon et mesures OTDR en Île-de-France. Sous-traitance pour intégrateurs, opérateurs et exploitants de RIP.',
+      'Déploiement FTTH D2 en sous-traitance : tirage de câbles, pose de PBO et BPE, soudure, recette OTDR, maintenance et reprises. 8 départements d’Île-de-France.',
   },
   merci: {
     title: 'Demande envoyée — Linkteo',

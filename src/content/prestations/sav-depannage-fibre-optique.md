@@ -1,66 +1,66 @@
 ---
-title: "SAV et dépannage fibre optique à Paris et en IDF — Linkteo"
-description: "Dépannage fibre FTTH en sous-traitance : diagnostic par mesure, localisation du défaut, remise en service et compte rendu de cause. Paris et Île-de-France."
-h1: "SAV et dépannage fibre optique"
-nom: "SAV et dépannage fibre"
-serviceType: "Service après-vente et dépannage FTTH"
+title: "Dépannage réseau fibre optique à Paris et en IDF — Linkteo"
+description: "Dépannage FTTH sur le réseau de distribution : localisation à l'OTDR, réparation de câble coupé, reprise d'épissures et de boîtiers, compte rendu de cause. Île-de-France."
+h1: "Dépannage de réseau fibre optique"
+nom: "Dépannage réseau"
+serviceType: "Dépannage de réseau de distribution FTTH"
 icone: sav
-ordre: 2
+ordre: 4
 chapo: >-
-  Sur des lignes déjà raccordées, nous trouvons pourquoi la lumière n'arrive plus, ou plus assez, et nous
-  remettons le lien en service. Chaque intervention se termine par une cause identifiée, pas seulement
-  par « rétabli ».
+  Un câble de distribution coupé ou un boîtier endommagé, ce sont parfois des dizaines de logements privés
+  de service. Nous localisons le défaut, nous le réparons et nous documentons la cause pour que l'incident
+  soit imputé au bon acteur.
 essentiel:
-  - Diagnostic par photométrie et réflectométrie
-  - Localisation du défaut entre PTO, câble et PBO
-  - Reprise de soudure, de connecteur ou de câble
-  - Compte rendu de cause pour l'imputation
+  - Localisation du défaut à l'OTDR
+  - Réparation de câble sectionné (boîtier de réparation)
+  - Reprise d'épissures, de cassettes et de boîtiers
+  - Compte rendu de cause, photos et mesures
 livrables:
-  - Valeurs de mesure avant et après intervention
-  - Localisation et photo du défaut
+  - Mesures avant et après intervention
+  - Localisation et photos du défaut
   - Cause identifiée et action réalisée
-  - Photos de l'état final (PTO, PBO)
+  - Photos du boîtier ou de la réparation refermés
 faq:
   - q: Je suis particulier et ma fibre est coupée, pouvez-vous venir ?
     r: >-
-      Nous ne pouvons pas intervenir sur une ligne sans commande de l'opérateur. Signalez la panne à votre
-      fournisseur d'accès : c'est lui qui déclenche l'intervention, parfois via un sous-traitant comme
-      Linkteo.
+      Non. Nous intervenons sur le réseau pour le compte des opérateurs et de leurs sous-traitants, jamais
+      directement chez un abonné. Signalez la panne à votre fournisseur d'accès : c'est lui qui déclenche
+      l'intervention.
   - q: Pourquoi un compte rendu de cause ?
     r: >-
-      Parce que l'imputation du défaut (réseau, branchement, installation intérieure, tiers) détermine qui
-      paie la réparation entre opérateur commercial et opérateur d'infrastructure. Une cause prouvée par la
-      mesure et la photo évite les contestations.
+      Parce que l'origine du défaut (usure, malfaçon, dégât de tiers lors de travaux ou d'élagage)
+      détermine qui prend en charge la réparation. Une cause prouvée par la mesure et la photo évite les
+      contestations.
 ---
 
-## Les pannes que nous traitons
+## Les défauts que nous traitons
 
-Sur une ligne FTTH en service, les défauts se concentrent sur quelques points connus :
+Sur le réseau de distribution, les incidents se concentrent sur quelques situations connues :
 
-- **PTO endommagée** : prise arrachée, connecteur cassé, cordon pincé.
-- **Connecteur encrassé** : une poussière sur une férule suffit à dégrader fortement le signal.
-- **Câble de branchement sectionné** ou écrasé : travaux, élagage, choc sur un câble aérien, passage de porte.
-- **Courbure excessive** du câble dans une goulotte ou derrière un meuble.
-- **PBO dégradé** : boîtier ouvert, cassette déplacée, soudure fragilisée lors d'une intervention voisine.
+- **Câble sectionné ou arraché** : travaux de voirie, élagage, poids lourd sur un câble aérien, chute
+  d'appui.
+- **Boîtier endommagé** : PBO ou BPE ouvert, vandalisé, rempli d'eau, cassette sortie de son logement.
+- **Épissure dégradée** : soudure fragilisée lors d'une intervention voisine, fibre trop contrainte en
+  cassette.
+- **Courbure excessive** d'un câble dans une chambre, une gaine ou en façade.
 
-## Notre méthode de diagnostic
+## Notre méthode
 
-1. **Mesure à la PTO** : puissance reçue et comparaison avec la valeur attendue.
-2. **Inspection et nettoyage** des connecteurs accessibles avant toute autre action.
-3. **Sectionnement du problème** : mesure côté PBO pour savoir si le défaut est en amont ou en aval.
-4. **Réflectométrie (OTDR)** si nécessaire, pour localiser à quelques mètres près une coupure
-   ou une courbure sur le câble de branchement.
-5. **Réparation** : nouvelle épissure, remplacement de la PTO ou du connecteur, reprise ou
-   remplacement du câble de branchement.
-6. **Mesure de contrôle** après réparation, photos et compte rendu.
+1. **Mesure OTDR** depuis un point d'accès pour localiser l'événement en cause, à quelques mètres près.
+2. **Vérification sur le terrain** : chambre, appui, façade ou boîtier concerné.
+3. **Sécurisation** du site si nécessaire : balisage, câble au sol remis hors de portée.
+4. **Réparation** : reprise des épissures, pose d'un boîtier de réparation sur un câble coupé,
+   remplacement ou remise en état du boîtier.
+5. **Mesure de contrôle** après réparation, photos et compte rendu.
 
 ## Ce que contient le compte rendu
 
-La valeur mesurée avant et après, l'endroit exact du défaut, sa cause probable et l'action réalisée.
-Le compte rendu suit le format de votre outil de suivi, pour être exploitable sans ressaisie.
+Les mesures avant et après, l'endroit exact du défaut, sa cause probable, les photos et l'action
+réalisée. Le compte rendu suit le format de votre outil de suivi, pour être exploitable sans ressaisie.
 
 ## Dépannage à Paris et en Île-de-France
 
-Nous intervenons dans les huit départements d'Île-de-France : Paris, la petite couronne (92, 93, 94)
-et la grande couronne (77, 78, 91, 95). En zone dense, les défauts se concentrent dans les colonnes montantes et les boîtiers
-d'étage. En grande couronne, sur les branchements aériens exposés aux intempéries et à l'élagage.
+Nous intervenons dans les huit départements d'Île-de-France : Paris, la petite couronne (92, 93, 94) et la
+grande couronne (77, 78, 91, 95). En zone dense, les défauts se concentrent dans les chambres, les colonnes
+montantes et les boîtiers d'étage. En grande couronne, sur les câbles aériens exposés aux intempéries et à
+l'élagage.

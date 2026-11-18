@@ -10,7 +10,7 @@ const site = Astro.site ?? new URL('https://linkteo.com');
 const href = '/sous-traitance-fibre-optique';
 const title = 'Sous-traitant fibre optique en Île-de-France — Linkteo';
 const description =
-  'Sous-traitance FTTH pour intégrateurs, opérateurs et exploitants de RIP : raccordement D3, SAV, reprises, mesures. Dossier administratif complet et lot test en IDF.';
+  'Sous-traitance FTTH D2 pour intégrateurs, opérateurs et exploitants de RIP : tirage, pose de PBO, soudure, recette, reprises. Dossier administratif complet et lot test.';
 
 const ariane = [
   { nom: 'Accueil', href: '/' },
@@ -32,8 +32,8 @@ const zonesCouvertes = zones.filter((z) => z.couvert);
 const tel = contact.telephone;
 
 const clients = [
-  { titre: 'Intégrateurs', texte: 'Renfort sur vos plans de charge de raccordement, de SAV ou de reprises, en rang 2.' },
-  { titre: 'Opérateurs commerciaux', texte: 'Raccordements en mode STOC et interventions SAV sur vos lignes.' },
+  { titre: 'Intégrateurs', texte: 'Vos conducteurs de travaux nous confient des dossiers D2 : tirage, pose de boîtiers, soudure, recette. Renfort ponctuel ou récurrent, en rang 2.' },
+  { titre: 'Entreprises de travaux télécom', texte: 'Équipes de soudure et de tirage en appui de vos chantiers de déploiement.' },
   { titre: 'Opérateurs d’infrastructure et exploitants de RIP', texte: 'Maintenance, reprises de malfaçon et mesures de recette sur votre réseau.' },
 ];
 
@@ -46,7 +46,7 @@ const etapes = [
 
 const engagements = [
   { titre: 'Un compte rendu par intervention', texte: 'Photos avant et après, mesures, référence de prise. Pas de clôture sans preuve.' },
-  { titre: 'Des échecs motivés', texte: 'Un raccordement impossible est localisé, photographié et codé selon votre nomenclature.' },
+  { titre: 'Des réserves documentées', texte: 'Chambre inaccessible, fourreau bouché, appui saturé : le point bloquant est localisé et photographié, le reste du dossier avance.' },
   { titre: 'Les règles de l’opérateur d’infrastructure', texte: 'Cheminement, lovage, étiquetage et fermeture des boîtiers conformes à l’ingénierie du réseau.' },
   { titre: 'Un interlocuteur joignable', texte: 'Un contact unique pour la planification, les aléas de chantier et la facturation.' },
 ];
@@ -63,7 +63,8 @@ const label = 'block font-display text-[0.95rem] font-bold text-nuit';
       <h1 class="mt-3 max-w-4xl text-[2rem] font-bold !text-white sm:text-5xl">Sous-traitant fibre optique en Île-de-France</h1>
       <p class="mt-5 max-w-3xl text-lg text-brume">
         {entreprise.nom} intervient en sous-traitance pour les intégrateurs, les opérateurs et les exploitants
-        de réseaux FTTH : raccordement D3, SAV, maintenance, reprises de malfaçon et mesures optiques,
+        de réseaux FTTH sur le réseau de distribution (D2) : tirage de câbles, pose de PBO et de BPE, soudure,
+        recette, maintenance, reprises de malfaçon et dépannage,
         sur {zonesCouvertes.length} départements d’Île-de-France.
       </p>
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">

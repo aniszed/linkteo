@@ -1,11 +1,11 @@
 ---
-title: "Mesures OTDR et contrôles optiques en Île-de-France — Linkteo"
+title: "Mesures OTDR et recette fibre optique en Île-de-France — Linkteo"
 description: "Mesures de réflectométrie OTDR et de photométrie pour la recette et le diagnostic de liens fibre optique. Fichiers .sor et rapport exploitable. Île-de-France."
 h1: "Mesures OTDR et contrôles optiques"
-nom: "Mesures et contrôles optiques"
+nom: "Mesures et recette"
 serviceType: "Mesures de réflectométrie et de photométrie"
 icone: mesure
-ordre: 4
+ordre: 2
 chapo: >-
   Une mesure n'a de valeur que si elle est exploitable par la personne qui la reçoit. Nous réalisons les
   mesures de photométrie et de réflectométrie selon votre cahier des charges, et nous livrons les
@@ -37,7 +37,7 @@ faq:
 
 Avec une source et un photomètre (puissance-mètre), on mesure :
 
-- la **puissance reçue** à un point du réseau, typiquement à la PTO lors d'un raccordement ou d'un SAV ;
+- la **puissance reçue** à un point du réseau, typiquement au PBO pour vérifier un lien de distribution ;
 - l'**affaiblissement de bout en bout** d'un lien, comparé au budget optique attendu.
 
 C'est la mesure de base : rapide, elle dit si le lien fonctionne et avec quelle marge.
