@@ -84,3 +84,22 @@
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: none; }
 }
+
+/* Texte long (pages prestations, légales) */
+@layer components {
+  .redaction { max-width: 46rem; }
+  .redaction > * + * { margin-top: 1rem; }
+  .redaction h2 { font-size: 1.65rem; font-weight: 700; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--color-filet); }
+  .redaction > h2:first-child { margin-top: 0; padding-top: 0; border-top: 0; }
+  .redaction h3 { font-size: 1.25rem; font-weight: 700; margin-top: 2rem; }
+  .redaction ul { list-style: none; padding-left: 0; }
+  .redaction ul > li { position: relative; padding-left: 1.4rem; }
+  .redaction ul > li::before { content: ''; position: absolute; left: 0.2rem; top: 0.72em; width: 0.5rem; height: 0.5rem; background: var(--color-orange); }
+  .redaction ol { list-style: none; counter-reset: etape; padding-left: 0; }
+  .redaction ol > li { counter-increment: etape; position: relative; padding-left: 2.6rem; }
+  .redaction ol > li::before { content: counter(etape); position: absolute; left: 0; top: 0.1rem; width: 1.8rem; height: 1.8rem; display: grid; place-items: center; border-radius: var(--radius-md); background: var(--color-nuit); color: #fff; font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; }
+  .redaction li + li { margin-top: 0.55rem; }
+  .redaction strong { color: var(--color-nuit); font-weight: 600; }
+  .redaction a { color: var(--color-nuit); font-weight: 500; text-decoration: underline; text-decoration-color: var(--color-orange); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+  .redaction dt { font-weight: 600; color: var(--color-nuit); margin-top: 0.75rem; }
+}

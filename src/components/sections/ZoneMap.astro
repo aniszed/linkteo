@@ -24,7 +24,7 @@ const autres = zones.filter((z) => !z.couvert);
 <section id="zones" aria-labelledby="zones-titre" class="py-16 md:py-24">
   <div class="conteneur grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
     <div>
-      <SectionTitre numero="04" repere="Zone d’intervention" titre="Paris, petite couronne, Val-d’Oise et Yvelines" id="zones-titre">
+      <SectionTitre numero="04" repere="Zone d’intervention" titre="Les 8 départements d’Île-de-France" id="zones-titre">
         Immeubles collectifs en zone dense, pavillonnaire et réseau aérien en grande couronne :
         les techniques changent d’un département à l’autre, nos équipes s’y adaptent.
       </SectionTitre>
@@ -74,7 +74,7 @@ const autres = zones.filter((z) => !z.couvert);
         ))}
       </svg>
       <figcaption class="mt-3 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ardoise">
-        <span class="flex items-center gap-2"><span class="size-3.5 rounded-sm bg-nuit" aria-hidden="true"></span>Zone principale</span>
+        <span class="flex items-center gap-2"><span class="size-3.5 rounded-sm bg-nuit" aria-hidden="true"></span>Départements couverts</span>
         {autres.length > 0 && <span class="flex items-center gap-2"><span class="size-3.5 rounded-sm bg-surface ring-1 ring-brume" aria-hidden="true"></span>Sur demande</span>}
         <span class="text-xs">Contours : IGN Admin Express, Licence Ouverte</span>
       </figcaption>

@@ -145,7 +145,7 @@ export const prestations: Prestation[] = [
     titre: 'Reprises de malfaçon',
     resume: 'Reprise des raccordements non conformes signalés par l’opérateur d’infrastructure ou lors d’un audit.',
     points: ['Traitement de listes de reprises', 'Avant / après photographié', 'Mise en conformité aux règles d’ingénierie'],
-    page: '/maintenance-reseau-ftth',
+    page: '/maintenance-reseau-ftth#malfacons',
   },
   {
     id: 'mesure',
@@ -161,7 +161,7 @@ export const prestations: Prestation[] = [
     titre: 'Poteaux et façades',
     resume: 'Interventions en hauteur sur le réseau aérien : ancrages, passages en façade, boîtiers sur poteau.',
     points: ['Pose d’ancrages et de supports', 'Cheminement en façade', 'Balisage du chantier'],
-    page: '/raccordement-fibre-optique',
+    page: '/raccordement-fibre-optique#aerien-facade',
   },
 ];
 
@@ -178,13 +178,13 @@ export interface Zone {
 
 export const zones: Zone[] = [
   { code: '75', nom: 'Paris', slug: 'paris', couvert: true },
+  { code: '77', nom: 'Seine-et-Marne', slug: 'seine-et-marne', couvert: true },
+  { code: '78', nom: 'Yvelines', slug: 'yvelines', couvert: true },
+  { code: '91', nom: 'Essonne', slug: 'essonne', couvert: true },
   { code: '92', nom: 'Hauts-de-Seine', slug: 'hauts-de-seine', couvert: true },
   { code: '93', nom: 'Seine-Saint-Denis', slug: 'seine-saint-denis', couvert: true },
   { code: '94', nom: 'Val-de-Marne', slug: 'val-de-marne', couvert: true },
   { code: '95', nom: 'Val-d’Oise', slug: 'val-d-oise', couvert: true },
-  { code: '78', nom: 'Yvelines', slug: 'yvelines', couvert: true },
-  { code: '77', nom: 'Seine-et-Marne', slug: 'seine-et-marne', couvert: false }, // TODO: confirmer la couverture
-  { code: '91', nom: 'Essonne', slug: 'essonne', couvert: false }, // TODO: confirmer la couverture
 ];
 
 // ---------------------------------------------------------------------------
@@ -194,13 +194,22 @@ export const zones: Zone[] = [
  * Pages déjà construites. Un lien vers une page absente de cette liste
  * n'est pas rendu (évite les 404 pendant la construction par phases).
  */
-export const pagesPubliees: string[] = ['/', '/mentions-legales', '/politique-de-confidentialite'];
+export const pagesPubliees: string[] = [
+  '/',
+  '/raccordement-fibre-optique',
+  '/sav-depannage-fibre-optique',
+  '/maintenance-reseau-ftth',
+  '/mesures-controles-optiques',
+  '/sous-traitance-fibre-optique',
+  '/mentions-legales',
+  '/politique-de-confidentialite',
+];
 
 export const estPubliee = (href: string): boolean => pagesPubliees.includes(href.split('#')[0] || '/');
 
 export const navigation = [
   { label: 'Prestations', href: '/#prestations' },
-  { label: 'Donneurs d’ordre', href: '/#donneurs-ordre' },
+  { label: 'Sous-traitance', href: '/sous-traitance-fibre-optique' },
   { label: 'Zones', href: '/#zones' },
   { label: 'FAQ', href: '/#faq' },
   { label: 'Contact', href: '/#contact' },

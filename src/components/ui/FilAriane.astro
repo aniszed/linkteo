@@ -1,0 +1,22 @@
+---
+/** Fil d'Ariane visible + données structurées BreadcrumbList (renvoyées via la prop jsonLd du layout). */
+interface Props {
+  items: { nom: string; href: string }[];
+  sombre?: boolean;
+}
+const { items, sombre = false } = Astro.props;
+---
+<nav aria-label="Fil d’Ariane" class:list={['text-sm', sombre ? 'text-brume' : 'text-ardoise']}>
+  <ol class="flex flex-wrap items-center gap-x-2 gap-y-1">
+    {items.map((it, i) => (
+      <li class="flex items-center gap-2">
+        {i > 0 && <span aria-hidden="true">/</span>}
+        {i < items.length - 1 ? (
+          <a href={it.href} class:list={['hover:underline', sombre ? 'text-white' : 'text-nuit']}>{it.nom}</a>
+        ) : (
+          <span aria-current="page">{it.nom}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>

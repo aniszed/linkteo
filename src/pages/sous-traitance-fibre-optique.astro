@@ -1,0 +1,252 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Icon from '~/components/icons/Icon.astro';
+import FilAriane from '~/components/ui/FilAriane.astro';
+import SectionTitre from '~/components/ui/SectionTitre.astro';
+import { contact, entreprise, nombreTechniciens, piecesAdministratives, prestations, qualifications, zones, estPubliee } from '~/content/site-config';
+import { breadcrumbLd, serviceLd } from '~/lib/schema';
+
+const site = Astro.site ?? new URL('https://linkteo.com');
+const href = '/sous-traitance-fibre-optique';
+const title = 'Sous-traitant fibre optique en Île-de-France — Linkteo';
+const description =
+  'Sous-traitance FTTH pour intégrateurs, opérateurs et exploitants de RIP : raccordement D3, SAV, reprises, mesures. Dossier administratif complet et lot test en IDF.';
+
+const ariane = [
+  { nom: 'Accueil', href: '/' },
+  { nom: 'Sous-traitance fibre optique', href },
+];
+const jsonLd = [
+  serviceLd(site, {
+    nom: 'Sous-traitance fibre optique',
+    serviceType: 'Sous-traitance de travaux FTTH',
+    description,
+    href,
+  }),
+  breadcrumbLd(site, ariane),
+];
+
+const pieces = piecesAdministratives.filter((p) => p.disponible);
+const habilitations = qualifications.filter((q) => q.detenue);
+const zonesCouvertes = zones.filter((z) => z.couvert);
+const tel = contact.telephone;
+
+const clients = [
+  { titre: 'Intégrateurs', texte: 'Renfort sur vos plans de charge de raccordement, de SAV ou de reprises, en rang 2.' },
+  { titre: 'Opérateurs commerciaux', texte: 'Raccordements en mode STOC et interventions SAV sur vos lignes.' },
+  { titre: 'Opérateurs d’infrastructure et exploitants de RIP', texte: 'Maintenance, reprises de malfaçon et mesures de recette sur votre réseau.' },
+];
+
+const etapes = [
+  { titre: 'Demande de référencement', texte: 'Vous remplissez le formulaire ci-dessous ou vous nous écrivez avec votre besoin et votre secteur.' },
+  { titre: 'Dossier administratif', texte: 'Nous envoyons les pièces en un seul envoi, à jour, au format demandé par votre service achats.' },
+  { titre: 'Lot test', texte: 'Un premier lot limité, sur un secteur défini, pour juger la qualité des interventions et des comptes rendus.' },
+  { titre: 'Montée en volume', texte: 'Nous annonçons la capacité hebdomadaire que nous pouvons tenir, puis nous l’augmentons à mesure que l’équipe grandit.' },
+];
+
+const engagements = [
+  { titre: 'Un compte rendu par intervention', texte: 'Photos avant et après, mesures, référence de prise. Pas de clôture sans preuve.' },
+  { titre: 'Des échecs motivés', texte: 'Un raccordement impossible est localisé, photographié et codé selon votre nomenclature.' },
+  { titre: 'Les règles de l’opérateur d’infrastructure', texte: 'Cheminement, lovage, étiquetage et fermeture des boîtiers conformes à l’ingénierie du réseau.' },
+  { titre: 'Un interlocuteur joignable', texte: 'Un contact unique pour la planification, les aléas de chantier et la facturation.' },
+];
+
+const champ =
+  'mt-1.5 block w-full rounded-md border border-brume bg-white px-3.5 py-3 text-base text-encre focus:border-nuit focus:outline-none focus:ring-2 focus:ring-orange';
+const label = 'block font-display text-[0.95rem] font-bold text-nuit';
+---
+<BaseLayout title={title} description={description} jsonLd={jsonLd}>
+  <section class="bg-nuit text-white">
+    <div class="conteneur py-12 md:py-16">
+      <FilAriane items={ariane} sombre />
+      <p class="repere mt-8 text-brume">Donneurs d’ordre</p>
+      <h1 class="mt-3 max-w-4xl text-[2rem] font-bold !text-white sm:text-5xl">Sous-traitant fibre optique en Île-de-France</h1>
+      <p class="mt-5 max-w-3xl text-lg text-brume">
+        {entreprise.nom} intervient en sous-traitance pour les intégrateurs, les opérateurs et les exploitants
+        de réseaux FTTH : raccordement D3, SAV, maintenance, reprises de malfaçon et mesures optiques,
+        sur {zonesCouvertes.length} départements d’Île-de-France.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="#referencement" class="btn-orange">Demander le dossier de référencement<Icon name="fleche" class="size-5" /></a>
+        {tel && <a href={`tel:${tel.international}`} class="btn-contour-clair"><Icon name="telephone" class="size-5" />{tel.affichage}</a>}
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="pour-qui" class="py-16 md:py-20">
+    <div class="conteneur">
+      <SectionTitre numero="01" repere="Pour qui" titre="Nous travaillons pour" id="pour-qui" />
+      <ul class="mt-10 grid gap-px overflow-hidden rounded-md border border-filet bg-filet md:grid-cols-3">
+        {clients.map((c) => (
+          <li class="bg-white p-6 sm:p-7">
+            <h3 class="text-xl font-bold">{c.titre}</h3>
+            <p class="mt-2 text-ardoise">{c.texte}</p>
+          </li>
+        ))}
+      </ul>
+
+      <h3 class="mt-12 text-xl font-bold">Les interventions que nous prenons en charge</h3>
+      <ul class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {prestations.map((p) => (
+          <li class="flex items-center gap-3 rounded-md border border-filet px-4 py-3">
+            <Icon name={p.icone} class="size-6 shrink-0 text-nuit" />
+            {estPubliee(p.page) ? <a href={p.page} class="lien">{p.titre}</a> : <span class="font-medium text-nuit">{p.titre}</span>}
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="dossier" class="border-y border-filet bg-surface py-16 md:py-20">
+    <div class="conteneur grid gap-12 lg:grid-cols-2">
+      <div>
+        <SectionTitre numero="02" repere="Dossier administratif" titre="Les pièces de votre obligation de vigilance" id="dossier">
+          Pour tout contrat d’au moins 5 000 € HT, le donneur d’ordre doit vérifier que son sous-traitant est
+          en règle, à la signature puis tous les six mois (article L. 8222-1 du Code du travail). Nous fournissons
+          ces pièces sans relance, et nous les renouvelons à échéance.
+        </SectionTitre>
+        <p class="mt-6 text-ardoise">
+          Pour les marchés publics, notamment sur les réseaux d’initiative publique, nous fournissons aussi
+          les éléments de la déclaration de sous-traitance (formulaire DC4) demandés par votre acheteur.
+        </p>
+      </div>
+      <div class="rounded-md border border-filet bg-white p-6 sm:p-8">
+        <h3 class="text-lg font-bold">Pièces disponibles</h3>
+        <ul class="mt-4 space-y-3">
+          {pieces.map((p) => (
+            <li class="flex gap-3"><Icon name="check" class="mt-1 size-5 shrink-0 text-orange-fonce" />{p.libelle}</li>
+          ))}
+        </ul>
+        {habilitations.length > 0 && (
+          <>
+            <h3 class="mt-8 text-lg font-bold">Habilitations et assurances</h3>
+            <ul class="mt-4 space-y-3">
+              {habilitations.map((h) => (
+                <li class="flex gap-3"><Icon name="check" class="mt-1 size-5 shrink-0 text-orange-fonce" /><span><strong class="font-semibold text-nuit">{h.libelle}</strong> — {h.detail}</span></li>
+              ))}
+            </ul>
+          </>
+        )}
+        <dl class="mt-8 grid grid-cols-1 gap-x-6 gap-y-3 border-t border-filet pt-6 text-sm sm:grid-cols-2">
+          <div><dt class="text-ardoise">Raison sociale</dt><dd class="font-medium text-nuit">{entreprise.raisonSociale} ({entreprise.formeJuridique.replace(/^.*\((.*)\)$/, '$1')})</dd></div>
+          <div><dt class="text-ardoise">SIRET</dt><dd class="font-medium text-nuit">{entreprise.siret}</dd></div>
+          <div><dt class="text-ardoise">TVA</dt><dd class="font-medium text-nuit">{entreprise.tva}</dd></div>
+          <div><dt class="text-ardoise">Code NAF</dt><dd class="font-medium text-nuit">{entreprise.naf.split(' ')[0]}</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="process-ref" class="py-16 md:py-20">
+    <div class="conteneur">
+      <SectionTitre numero="03" repere="Référencement" titre="De la demande au premier lot" id="process-ref" />
+      <ol class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+        {etapes.map((e, i) => (
+          <li class="apparait">
+            <span class="flex size-11 items-center justify-center rounded-md bg-nuit font-display text-lg font-bold text-white">{i + 1}</span>
+            <h3 class="mt-4 text-xl font-bold">{e.titre}</h3>
+            <p class="mt-2 text-ardoise">{e.texte}</p>
+          </li>
+        ))}
+      </ol>
+      {nombreTechniciens !== null && (
+        <p class="mt-10 text-lg"><strong class="text-nuit">{nombreTechniciens} technicien{nombreTechniciens > 1 ? 's' : ''}</strong> mobilisables aujourd’hui sur l’Île-de-France.</p>
+      )}
+    </div>
+  </section>
+
+  <section aria-labelledby="engagements" class="bg-nuit py-16 text-white md:py-20">
+    <div class="conteneur">
+      <SectionTitre sombre numero="04" repere="Engagements" titre="Ce sur quoi vous pouvez nous juger" id="engagements" />
+      <ul class="mt-10 grid gap-px overflow-hidden rounded-md border border-nuit-700 bg-nuit-700 sm:grid-cols-2">
+        {engagements.map((e) => (
+          <li class="bg-nuit p-6 sm:p-7">
+            <h3 class="text-lg font-bold !text-white">{e.titre}</h3>
+            <p class="mt-2 text-brume">{e.texte}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="referencement" aria-labelledby="ref-titre" class="py-16 md:py-20">
+    <div class="conteneur grid gap-12 lg:grid-cols-[1fr_1.5fr]">
+      <SectionTitre numero="05" repere="Demande de référencement" titre="Recevoir notre dossier" id="ref-titre">
+        Indiquez votre secteur et le type d’interventions à confier. Nous répondons avec le dossier administratif
+        complet et une proposition de lot test.
+      </SectionTitre>
+
+      <form name="referencement" method="POST" action="/merci" data-netlify="true" netlify-honeypot="adresse-web"
+        class="rounded-md border border-filet bg-surface p-5 sm:p-8">
+        <input type="hidden" name="form-name" value="referencement" />
+        <p class="hidden" aria-hidden="true"><label>Ne pas remplir <input name="adresse-web" tabindex="-1" autocomplete="off" /></label></p>
+
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="ref-societe" class={label}>Société</label>
+            <input id="ref-societe" name="societe" type="text" autocomplete="organization" required class={champ} />
+          </div>
+          <div>
+            <label for="ref-type" class={label}>Vous êtes</label>
+            <select id="ref-type" name="type-donneur-ordre" required class={champ}>
+              <option value="">Choisir</option>
+              <option>Intégrateur</option>
+              <option>Opérateur commercial</option>
+              <option>Opérateur d’infrastructure / exploitant de RIP</option>
+              <option>Autre</option>
+            </select>
+          </div>
+          <div>
+            <label for="ref-nom" class={label}>Nom et prénom</label>
+            <input id="ref-nom" name="nom" type="text" autocomplete="name" required class={champ} />
+          </div>
+          <div>
+            <label for="ref-fonction" class={label}>Fonction</label>
+            <input id="ref-fonction" name="fonction" type="text" autocomplete="organization-title" placeholder="Conducteur de travaux, achats…" class={champ} />
+          </div>
+          <div>
+            <label for="ref-email" class={label}>Email professionnel</label>
+            <input id="ref-email" name="email" type="email" autocomplete="email" required class={champ} />
+          </div>
+          <div>
+            <label for="ref-tel" class={label}>Téléphone</label>
+            <input id="ref-tel" name="telephone" type="tel" autocomplete="tel" inputmode="tel" class={champ} />
+          </div>
+        </div>
+
+        <fieldset class="mt-6">
+          <legend class={label}>Interventions à confier</legend>
+          <div class="mt-2 grid gap-2 sm:grid-cols-2">
+            {prestations.map((p) => (
+              <label class="flex min-h-11 cursor-pointer items-center gap-3 rounded-md border border-brume bg-white px-3.5 py-2 text-[0.95rem]">
+                <input type="checkbox" name="interventions[]" value={p.titre} class="size-4 accent-nuit" />{p.titre}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <fieldset class="mt-6">
+          <legend class={label}>Départements</legend>
+          <div class="mt-2 flex flex-wrap gap-2">
+            {zones.map((z) => (
+              <label class="flex min-h-11 cursor-pointer items-center gap-2 rounded-md border border-brume bg-white px-3 py-2 text-[0.95rem]">
+                <input type="checkbox" name="departements[]" value={z.code} class="size-4 accent-nuit" />{z.code}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+
+        <div class="mt-6">
+          <label for="ref-message" class={label}>Volume et délais envisagés</label>
+          <textarea id="ref-message" name="message" rows="4" class={champ} placeholder="Nombre d’interventions par semaine, date de démarrage, outil de suivi utilisé…"></textarea>
+        </div>
+
+        <p class="mt-5 text-sm text-ardoise">
+          Vos informations servent uniquement à traiter votre demande.
+          Voir notre <a class="lien" href="/politique-de-confidentialite">politique de confidentialité</a>.
+        </p>
+        <button type="submit" class="btn-orange mt-6 w-full sm:w-auto">Envoyer la demande<Icon name="fleche" class="size-5" /></button>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,129 @@
+---
+/**
+ * Pages prestations, générées depuis src/content/prestations/*.md
+ * URL = nom du fichier : /raccordement-fibre-optique, /sav-depannage-fibre-optique, etc.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Icon from '~/components/icons/Icon.astro';
+import FilAriane from '~/components/ui/FilAriane.astro';
+import CtaBande from '~/components/sections/CtaBande.astro';
+import { contact, estPubliee } from '~/content/site-config';
+import { breadcrumbLd, faqLd, serviceLd } from '~/lib/schema';
+
+export const getStaticPaths = (async () => {
+  const pages = await getCollection('prestations');
+  return pages.map((entry) => ({ params: { prestation: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  entry: CollectionEntry<'prestations'>;
+}
+
+const { entry } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+const site = Astro.site ?? new URL('https://linkteo.com');
+const href = `/${entry.id}`;
+
+const ariane = [
+  { nom: 'Accueil', href: '/' },
+  { nom: 'Prestations', href: '/#prestations' },
+  { nom: d.nom, href },
+];
+
+const autres = (await getCollection('prestations'))
+  .filter((p) => p.id !== entry.id && estPubliee(`/${p.id}`))
+  .sort((a, b) => a.data.ordre - b.data.ordre);
+
+const tel = contact.telephone;
+const jsonLd = [
+  serviceLd(site, { nom: d.nom, serviceType: d.serviceType, description: d.description, href }),
+  breadcrumbLd(site, ariane),
+  ...(d.faq.length ? [faqLd(d.faq)] : []),
+];
+---
+<BaseLayout title={d.title} description={d.description} jsonLd={jsonLd}>
+  <section class="border-b border-filet bg-surface">
+    <div class="conteneur py-10 md:py-14">
+      <FilAriane items={ariane} />
+      <div class="mt-6 grid gap-10 lg:grid-cols-[1.4fr_1fr] lg:items-start">
+        <div>
+          <span class="flex size-14 items-center justify-center rounded-md bg-white text-nuit ring-1 ring-filet">
+            <Icon name={d.icone} class="size-8" />
+          </span>
+          <h1 class="mt-5 text-[2rem] font-bold sm:text-5xl">{d.h1}</h1>
+          <p class="mt-5 max-w-2xl text-lg text-ardoise">{d.chapo}</p>
+          <div class="mt-7 flex flex-col gap-3 sm:flex-row">
+            {tel && <a href={`tel:${tel.international}`} class="btn-orange"><Icon name="telephone" class="size-5" />{tel.affichage}</a>}
+            <a href="/#contact" class:list={[tel ? 'btn-contour' : 'btn-orange']}>Demander un devis<Icon name="fleche" class="size-5" /></a>
+          </div>
+        </div>
+        <aside aria-label="L’essentiel" class="rounded-md border border-filet bg-white p-6">
+          <p class="repere">L’essentiel</p>
+          <ul class="mt-4 space-y-3">
+            {d.essentiel.map((e) => (
+              <li class="flex gap-3"><Icon name="check" class="mt-1 size-5 shrink-0 text-orange-fonce" /><span>{e}</span></li>
+            ))}
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <div class="conteneur grid gap-12 py-14 md:py-20 lg:grid-cols-[1fr_20rem]">
+    <article class="redaction">
+      <Content />
+    </article>
+
+    <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
+      <div class="rounded-md border border-filet p-6">
+        <h2 class="text-lg font-bold">Ce que vous recevez</h2>
+        <ul class="mt-4 space-y-2.5 text-[0.95rem]">
+          {d.livrables.map((l) => (
+            <li class="flex gap-2.5"><Icon name="document" class="mt-0.5 size-5 shrink-0 text-ardoise" />{l}</li>
+          ))}
+        </ul>
+      </div>
+      {autres.length > 0 && (
+        <nav aria-label="Autres prestations" class="rounded-md border border-filet p-6">
+          <h2 class="text-lg font-bold">Autres prestations</h2>
+          <ul class="mt-4 space-y-3">
+            {autres.map((p) => (
+              <li>
+                <a href={`/${p.id}`} class="group flex items-center gap-3 font-medium text-nuit">
+                  <Icon name={p.data.icone} class="size-5 shrink-0 text-ardoise group-hover:text-orange-fonce" />
+                  <span class="group-hover:underline">{p.data.nom}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+    </aside>
+  </div>
+
+  {d.faq.length > 0 && (
+    <section aria-labelledby="faq-prestation" class="border-t border-filet bg-surface py-14 md:py-20">
+      <div class="conteneur max-w-4xl">
+        <h2 id="faq-prestation" class="text-3xl font-bold">Questions fréquentes</h2>
+        <div class="mt-8 divide-y divide-filet border-y border-filet">
+          {d.faq.map((f) => (
+            <details class="group py-1">
+              <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-4 text-nuit [&::-webkit-details-marker]:hidden">
+                <h3 class="text-lg font-bold">{f.q}</h3>
+                <span class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-sm border border-filet bg-white transition-transform group-open:rotate-45" aria-hidden="true">
+                  <svg class="size-3.5" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 1v10M1 6h10" /></svg>
+                </span>
+              </summary>
+              <p class="pb-5 pr-10 text-ardoise">{f.r}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <CtaBande />
+</BaseLayout>
