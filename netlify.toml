@@ -1,0 +1,48 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Passer à "true" dans l'interface Netlify une fois le domaine linkteo.com branché.
+  PUBLIC_SITE_INDEXABLE = "false"
+
+# En-têtes de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    Content-Security-Policy = "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; script-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none'"
+
+# Ressources versionnées : cache long
+[[headers]]
+  for = "/_astro/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Domaine canonique : décommenter quand linkteo.com (et linkteo.fr) sont branchés.
+# La sous-adresse linkteo.netlify.app sera alors redirigée elle aussi.
+# [[redirects]]
+#   from = "https://linkteo.netlify.app/*"
+#   to = "https://linkteo.com/:splat"
+#   status = 301
+#   force = true
+# [[redirects]]
+#   from = "https://www.linkteo.com/*"
+#   to = "https://linkteo.com/:splat"
+#   status = 301
+#   force = true
+# [[redirects]]
+#   from = "https://linkteo.fr/*"
+#   to = "https://linkteo.com/:splat"
+#   status = 301
+#   force = true
+# [[redirects]]
+#   from = "https://www.linkteo.fr/*"
+#   to = "https://linkteo.com/:splat"
+#   status = 301
+#   force = true

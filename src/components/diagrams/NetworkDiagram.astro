@@ -1,0 +1,57 @@
+---
+/**
+ * Schéma du réseau FTTH : NRO → SRO → PBO → PTO.
+ * Les segments D1 / D2 / D3 sont nommés ; le D3 (branchement) est en orange.
+ * `theme="sombre"` pour un fond bleu nuit.
+ */
+interface Props {
+  theme?: 'clair' | 'sombre';
+  class?: string;
+}
+const { theme = 'clair', class: className = 'w-full h-auto' } = Astro.props;
+const trait = theme === 'sombre' ? '#ffffff' : '#0b1f33';
+const doux = theme === 'sombre' ? '#a9b7c6' : '#4a5868';
+const fond = theme === 'sombre' ? '#0b1f33' : '#ffffff';
+const orangeTexte = theme === 'sombre' ? '#ff6a13' : '#b04200';
+---
+<svg class={className} viewBox="0 0 560 220" role="img" aria-labelledby="schema-titre schema-desc">
+  <title id="schema-titre">Architecture d’un réseau FTTH</title>
+  <desc id="schema-desc">
+    Le transport (D1) relie le nœud de raccordement optique (NRO) au sous-répartiteur (SRO).
+    La distribution (D2) va du SRO au point de branchement (PBO). Le branchement (D3), notre cœur de métier,
+    relie le PBO à la prise terminale (PTO) dans le logement.
+  </desc>
+  <g fill="none" stroke-linecap="round">
+    <!-- D1 : transport -->
+    <path d="M70 110H200" stroke={trait} stroke-width="3" />
+    <!-- D2 : distribution -->
+    <path d="M230 110H350" stroke={trait} stroke-width="3" stroke-dasharray="1 0" />
+    <!-- D3 : branchement -->
+    <path d="M380 110C420 110 420 150 456 150" stroke="#ff6a13" stroke-width="4" />
+  </g>
+
+  <!-- NRO -->
+  <rect x="20" y="80" width="50" height="60" rx="3" fill={fond} stroke={trait} stroke-width="2.5" />
+  <path d="M30 95h30M30 105h30M30 115h30M30 125h30" stroke={doux} stroke-width="1.5" />
+  <!-- SRO -->
+  <rect x="200" y="88" width="30" height="44" rx="3" fill={fond} stroke={trait} stroke-width="2.5" />
+  <path d="M207 100h16M207 110h16M207 120h16" stroke={doux} stroke-width="1.5" />
+  <!-- PBO -->
+  <rect x="350" y="96" width="30" height="28" rx="3" fill={fond} stroke={trait} stroke-width="2.5" />
+  <circle cx="365" cy="110" r="4" fill="#ff6a13" />
+  <!-- Logement + PTO -->
+  <path d="M456 186v-56l40-30 40 30v56z" fill={fond} stroke={trait} stroke-width="2.5" stroke-linejoin="round" />
+  <rect x="456" y="140" width="14" height="20" rx="2" fill="#ff6a13" />
+
+  <g font-family="Space Grotesk, sans-serif" font-weight="700" font-size="15" fill={trait} text-anchor="middle">
+    <text x="45" y="165">NRO</text>
+    <text x="215" y="157">SRO</text>
+    <text x="365" y="149">PBO</text>
+    <text x="496" y="210">PTO</text>
+  </g>
+  <g font-family="Inter Variable, sans-serif" font-weight="600" font-size="13" text-anchor="middle">
+    <text x="135" y="98" fill={doux}>D1 · transport</text>
+    <text x="290" y="98" fill={doux}>D2 · distribution</text>
+    <text x="420" y="82" fill={orangeTexte}>D3 · branchement</text>
+  </g>
+</svg>

@@ -1,0 +1,22 @@
+---
+/** En-tête de section façon repère de plan : « 01 — Prestations » + H2 + chapeau. */
+interface Props {
+  numero: string;
+  repere: string;
+  titre: string;
+  id?: string;
+  sombre?: boolean;
+}
+const { numero, repere, titre, id, sombre = false } = Astro.props;
+---
+<div class="max-w-3xl">
+  <p class:list={['repere flex items-center gap-3', sombre && 'text-brume']}>
+    <span class:list={[sombre ? 'text-orange' : 'text-orange-fonce']}>{numero}</span>
+    <span class:list={['h-px w-8', sombre ? 'bg-nuit-700' : 'bg-filet']} aria-hidden="true"></span>
+    {repere}
+  </p>
+  <h2 id={id} class:list={['mt-3 text-3xl font-bold sm:text-4xl', sombre && '!text-white']}>{titre}</h2>
+  {Astro.slots.has('default') && (
+    <div class:list={['mt-4 text-lg', sombre ? 'text-brume' : 'text-ardoise']}><slot /></div>
+  )}
+</div>

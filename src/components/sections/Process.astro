@@ -1,0 +1,54 @@
+---
+import Icon from '~/components/icons/Icon.astro';
+import SectionTitre from '~/components/ui/SectionTitre.astro';
+
+const etapes = [
+  {
+    icone: 'email',
+    titre: 'Demande',
+    texte:
+      'Vous envoyez l’adresse, la référence de prise ou de commande et le type d’intervention. Pour un volume, une liste suffit.',
+  },
+  {
+    icone: 'calendrier',
+    titre: 'Planification',
+    texte:
+      'Nous confirmons le créneau, l’accès au site (badge, syndic, client final) et le matériel nécessaire avant de nous déplacer.',
+  },
+  {
+    icone: 'outil',
+    titre: 'Intervention',
+    texte:
+      'Travail selon les règles d’ingénierie de l’opérateur d’infrastructure : cheminement propre, lovage, étiquetage, chantier balisé.',
+  },
+  {
+    icone: 'rapport',
+    titre: 'Compte rendu',
+    texte:
+      'Photos avant et après (PBO, cheminement, PTO), valeurs de mesure et fiche d’intervention au format demandé par le donneur d’ordre.',
+  },
+] as const;
+---
+<section aria-labelledby="process-titre" class="border-y border-filet bg-surface py-16 md:py-24">
+  <div class="conteneur">
+    <SectionTitre numero="02" repere="Méthode" titre="Comment se passe une intervention" id="process-titre">
+      Quatre étapes, les mêmes pour un raccordement isolé ou une série de reprises.
+    </SectionTitre>
+
+    <ol class="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      {etapes.map((e, i) => (
+        <li class="apparait relative">
+          <div class="flex items-center gap-3">
+            <span class="flex size-11 items-center justify-center rounded-md bg-nuit font-display text-lg font-bold text-white">
+              {i + 1}
+            </span>
+            <span class="hidden h-px flex-1 bg-filet lg:block" aria-hidden="true"></span>
+            <Icon name={e.icone} class="size-6 text-ardoise" />
+          </div>
+          <h3 class="mt-4 text-xl font-bold">{e.titre}</h3>
+          <p class="mt-2 text-ardoise">{e.texte}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

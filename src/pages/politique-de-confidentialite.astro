@@ -1,0 +1,56 @@
+---
+import PageTexte from '~/layouts/PageTexte.astro';
+import { contact, entreprise } from '~/content/site-config';
+
+const contactRgpd = contact.email ?? `par courrier au ${entreprise.siege.rue}, ${entreprise.siege.codePostal} ${entreprise.siege.ville}`;
+---
+<PageTexte
+  title="Politique de confidentialité — Linkteo"
+  description="Comment Linkteo traite les données envoyées par le formulaire de contact : finalité, durée de conservation, hébergement et droits."
+  h1="Politique de confidentialité"
+  repere="Données personnelles"
+>
+  <h2>Responsable du traitement</h2>
+  <p>
+    {entreprise.raisonSociale}, {entreprise.formeJuridique}, {entreprise.siege.rue}, {entreprise.siege.codePostal} {entreprise.siege.ville},
+    {' '}{entreprise.rcs}.
+  </p>
+
+  <h2>Données collectées</h2>
+  <p>
+    Uniquement celles que vous saisissez dans le formulaire de contact : nom, société, email, téléphone,
+    département d’intervention et message.
+  </p>
+  <p>
+    Ce site n’utilise ni cookie publicitaire, ni outil de mesure d’audience, ni traceur tiers.
+    Aucun bandeau de consentement n’est donc nécessaire.
+  </p>
+
+  <h2>Finalité et base légale</h2>
+  <p>
+    Répondre à votre demande (devis, intervention, référencement) et, le cas échéant, préparer la relation commerciale
+    qui en découle. Base légale : mesures précontractuelles prises à votre demande et intérêt légitime à répondre
+    aux sollicitations professionnelles (article 6.1 b et f du RGPD).
+  </p>
+
+  <h2>Durée de conservation</h2>
+  <p>
+    Trois ans à compter du dernier échange en l’absence de relation contractuelle. En cas de contrat, les données
+    sont conservées pendant la durée de la relation, puis archivées selon les obligations légales.
+  </p>
+
+  <h2>Destinataires et hébergement</h2>
+  <p>
+    Les données sont destinées à {entreprise.raisonSociale} uniquement et ne sont ni vendues ni cédées.
+    Les messages du formulaire sont reçus et stockés par notre hébergeur Netlify, Inc. (États-Unis).
+    Ce transfert est encadré par le Data Privacy Framework UE–États-Unis et les clauses contractuelles types
+    de la Commission européenne.
+  </p>
+
+  <h2>Vos droits</h2>
+  <p>
+    Vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation, d’opposition et de portabilité.
+    Pour l’exercer : {contactRgpd}. Vous pouvez aussi introduire une réclamation auprès de la CNIL
+    (<a href="https://www.cnil.fr" rel="noopener">cnil.fr</a>).
+  </p>
+</PageTexte>

@@ -1,0 +1,14 @@
+---
+import PageTexte from '~/layouts/PageTexte.astro';
+import { prestations, seo, estPubliee } from '~/content/site-config';
+
+const pages = [...new Map(prestations.filter((p) => estPubliee(p.page)).map((p) => [p.page, p])).values()];
+---
+<PageTexte title={seo.notFound.title} description={seo.notFound.description} h1="Page introuvable" repere="Erreur 404" noindex>
+  <p>Cette adresse ne correspond à aucune page du site. Elle a peut-être été déplacée.</p>
+  <ul>
+    <li><a href="/">Accueil</a></li>
+    {pages.map((p) => <li><a href={p.page}>{p.titre}</a></li>)}
+    <li><a href="/#contact">Nous contacter</a></li>
+  </ul>
+</PageTexte>

@@ -1,0 +1,14 @@
+---
+import PageTexte from '~/layouts/PageTexte.astro';
+import { contact, seo } from '~/content/site-config';
+---
+<PageTexte title={seo.merci.title} description={seo.merci.description} h1="Demande envoyée" repere="Contact" noindex>
+  <p>
+    Merci, votre message est bien arrivé. Nous revenons vers vous par email ou par téléphone
+    ({contact.horaires.toLowerCase()}).
+  </p>
+  <p>
+    Pour une demande de référencement, la réponse contient notre dossier administratif complet.
+  </p>
+  <p><a href="/">Retour à l’accueil</a></p>
+</PageTexte>

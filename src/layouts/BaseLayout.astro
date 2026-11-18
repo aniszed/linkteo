@@ -1,0 +1,98 @@
+---
+import '@fontsource-variable/inter/wght.css';
+import '@fontsource/space-grotesk/700.css';
+import '~/styles/global.css';
+import interLatin from '@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url';
+import groteskLatin from '@fontsource/space-grotesk/files/space-grotesk-latin-700-normal.woff2?url';
+
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import MobileCallBar from '~/components/layout/MobileCallBar.astro';
+import { entreprise, indexable } from '~/content/site-config';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Données structurées propres à la page (en plus de l'Organization globale). */
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
+  ogImage?: string;
+}
+
+const { title, description, jsonLd = [], noindex = false, ogImage = '/og-image.png' } = Astro.props;
+const site = Astro.site ?? new URL('https://linkteo.com');
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', site).href;
+const ogImageUrl = new URL(ogImage, site).href;
+const robots = indexable && !noindex ? 'index, follow' : 'noindex, nofollow';
+
+// Organization : identité légale, présente sur toutes les pages.
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  '@id': `${site.href}#organisation`,
+  name: entreprise.nom,
+  legalName: entreprise.raisonSociale,
+  url: site.href,
+  logo: new URL('/icon-512.png', site).href,
+  vatID: entreprise.tva,
+  identifier: { '@type': 'PropertyValue', propertyID: 'SIREN', value: entreprise.siren.replaceAll(' ', '') },
+  foundingDate: entreprise.dateCreation,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: entreprise.siege.rue,
+    postalCode: entreprise.siege.codePostal,
+    addressLocality: entreprise.siege.ville,
+    addressCountry: entreprise.siege.pays,
+  },
+};
+const schemas = [organization, ...jsonLd];
+---
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <link rel="canonical" href={canonical} />
+
+    <link rel="preload" href={interLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={groteskLatin} as="font" type="font/woff2" crossorigin />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0b1f33" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content="Linkteo" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Linkteo — raccordement, SAV et maintenance fibre optique en Île-de-France" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    {schemas.map((s) => <script type="application/ld+json" set:html={JSON.stringify(s)} />)}
+  </head>
+  <body class="flex min-h-dvh flex-col pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0">
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2">
+      Aller au contenu
+    </a>
+    <Header />
+    <main id="contenu" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <MobileCallBar />
+  </body>
+</html>

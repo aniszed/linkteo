@@ -1,0 +1,52 @@
+---
+import PageTexte from '~/layouts/PageTexte.astro';
+import { contact, entreprise } from '~/content/site-config';
+
+const nonRenseigne = 'à compléter';
+---
+<PageTexte
+  title="Mentions légales — Linkteo"
+  description="Mentions légales du site Linkteo : éditeur, immatriculation, directeur de la publication et hébergeur."
+  h1="Mentions légales"
+  repere="Informations légales"
+>
+  <h2>Éditeur du site</h2>
+  <dl>
+    <dt>Raison sociale</dt><dd>{entreprise.raisonSociale}</dd>
+    <dt>Forme juridique</dt><dd>{entreprise.formeJuridique}</dd>
+    <dt>Capital social</dt><dd>{entreprise.capitalSocial ?? nonRenseigne}</dd>
+    <dt>Siège social</dt><dd>{entreprise.siege.rue}, {entreprise.siege.codePostal} {entreprise.siege.ville}, France</dd>
+    <dt>Immatriculation</dt><dd>{entreprise.rcs} — SIRET {entreprise.siret}</dd>
+    <dt>TVA intracommunautaire</dt><dd>{entreprise.tva}</dd>
+    <dt>Code NAF</dt><dd>{entreprise.naf}</dd>
+    <dt>Président</dt><dd>{entreprise.president}</dd>
+    <dt>Téléphone</dt><dd>{contact.telephone?.affichage ?? nonRenseigne}</dd>
+    <dt>Email</dt><dd>{contact.email ?? nonRenseigne}</dd>
+  </dl>
+
+  <h2>Directeur de la publication</h2>
+  <p>{entreprise.directeurPublication}, en qualité de président.</p>
+
+  <h2>Hébergeur</h2>
+  <p>
+    Netlify, Inc.<br />
+    44 Montgomery Street, Suite 300, San Francisco, CA 94104, États-Unis<br />
+    <a href="https://www.netlify.com" rel="noopener">www.netlify.com</a>
+  </p>
+
+  <h2>Propriété intellectuelle</h2>
+  <p>
+    Les textes, le logo, les schémas et les illustrations de ce site sont la propriété de {entreprise.raisonSociale},
+    sauf mention contraire. Toute reproduction sans autorisation écrite est interdite.
+  </p>
+  <p>
+    Les contours des départements de la carte d’Île-de-France proviennent d’IGN Admin Express (Licence Ouverte / Etalab).
+    Les polices Inter et Space Grotesk sont distribuées sous licence SIL Open Font License.
+  </p>
+
+  <h2>Données personnelles</h2>
+  <p>
+    Le traitement des informations envoyées par le formulaire de contact est décrit dans la
+    <a href="/politique-de-confidentialite">politique de confidentialité</a>.
+  </p>
+</PageTexte>

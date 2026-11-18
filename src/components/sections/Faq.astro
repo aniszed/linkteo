@@ -1,0 +1,23 @@
+---
+import SectionTitre from '~/components/ui/SectionTitre.astro';
+
+import { faq } from '~/content/faq';
+---
+<section id="faq" aria-labelledby="faq-titre" class="border-t border-filet bg-surface py-16 md:py-24">
+  <div class="conteneur grid gap-10 lg:grid-cols-[1fr_2fr]">
+    <SectionTitre numero="05" repere="Questions fréquentes" titre="Questions fréquentes" id="faq-titre" />
+    <div class="divide-y divide-filet border-y border-filet">
+      {faq.map((item) => (
+        <details class="group py-1">
+          <summary class="flex cursor-pointer list-none items-start justify-between gap-6 py-4 font-display text-lg font-bold text-nuit [&::-webkit-details-marker]:hidden">
+            <h3 class="text-lg font-bold">{item.q}</h3>
+            <span class="mt-1 flex size-6 shrink-0 items-center justify-center rounded-sm border border-filet bg-white text-nuit transition-transform group-open:rotate-45" aria-hidden="true">
+              <svg class="size-3.5" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 1v10M1 6h10" /></svg>
+            </span>
+          </summary>
+          <p class="pb-5 pr-10 text-ardoise">{item.r}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

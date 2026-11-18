@@ -1,0 +1,54 @@
+---
+import Logo from './Logo.astro';
+import { contact, entreprise, navigation, prestations, zones, estPubliee } from '~/content/site-config';
+
+const annee = new Date().getFullYear();
+const zonesCouvertes = zones.filter((z) => z.couvert);
+const liensLegaux = [
+  { label: 'Mentions légales', href: '/mentions-legales' },
+  { label: 'Politique de confidentialité', href: '/politique-de-confidentialite' },
+].filter((l) => estPubliee(l.href));
+---
+<footer class="bg-nuit text-brume">
+  <div class="conteneur grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
+    <div>
+      <a href="/" class="inline-block text-white" aria-label="Linkteo, accueil"><Logo class="h-9 w-auto" /></a>
+      <p class="mt-4 max-w-sm text-[0.95rem]">
+        Raccordement, SAV et maintenance de réseaux fibre optique en sous-traitance, en Île-de-France.
+      </p>
+      <address class="mt-5 text-[0.95rem] not-italic leading-relaxed">
+        {entreprise.formeJuridique.replace(/ \(SAS\)$/, '')} {entreprise.raisonSociale}<br />
+        {entreprise.siege.rue}, {entreprise.siege.codePostal} {entreprise.siege.ville}<br />
+        SIREN {entreprise.siren} — {entreprise.rcs.replace(/ \d.*$/, '')}<br />
+        {contact.telephone && <><a class="text-white hover:underline" href={`tel:${contact.telephone.international}`}>{contact.telephone.affichage}</a><br /></>}
+        {contact.email && <a class="text-white hover:underline" href={`mailto:${contact.email}`}>{contact.email}</a>}
+      </address>
+    </div>
+
+    <nav aria-label="Prestations">
+      <p class="repere text-brume">Prestations</p>
+      <ul class="mt-4 space-y-2 text-[0.95rem]">
+        {prestations.map((p) => (
+          <li>{estPubliee(p.page) ? <a class="hover:text-white" href={p.page}>{p.titre}</a> : <span>{p.titre}</span>}</li>
+        ))}
+      </ul>
+    </nav>
+
+    <nav aria-label="Zones et liens">
+      <p class="repere text-brume">Zones d’intervention</p>
+      <ul class="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-[0.95rem]">
+        {zonesCouvertes.map((z) => {
+          const href = `/zones/${z.slug}`;
+          return <li>{estPubliee(href) ? <a class="hover:text-white" href={href}>{z.nom} ({z.code})</a> : <span>{z.nom} ({z.code})</span>}</li>;
+        })}
+      </ul>
+      <ul class="mt-8 space-y-2 text-[0.95rem]">
+        {navigation.filter((l) => estPubliee(l.href)).slice(-1).map((l) => <li><a class="hover:text-white" href={l.href}>{l.label}</a></li>)}
+        {liensLegaux.map((l) => <li><a class="hover:text-white" href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="border-t border-nuit-700">
+    <p class="conteneur py-5 text-sm">© {annee} {entreprise.nom}. Tous droits réservés.</p>
+  </div>
+</footer>

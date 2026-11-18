@@ -1,0 +1,60 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Hero from '~/components/sections/Hero.astro';
+import Reassurance from '~/components/sections/Reassurance.astro';
+import Services from '~/components/sections/Services.astro';
+import Process from '~/components/sections/Process.astro';
+import DonneursOrdre from '~/components/sections/DonneursOrdre.astro';
+import ZoneMap from '~/components/sections/ZoneMap.astro';
+import Faq from '~/components/sections/Faq.astro';
+import ContactForm from '~/components/sections/ContactForm.astro';
+import { contact, entreprise, prestations, seo, zones } from '~/content/site-config';
+
+const site = Astro.site ?? new URL('https://linkteo.com');
+
+// LocalBusiness : entreprise de service sans accueil du public, zone desservie explicite.
+const localBusiness = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${site.href}#entreprise`,
+  name: entreprise.nom,
+  description: seo.accueil.description,
+  url: site.href,
+  image: new URL('/og-image.png', site).href,
+  logo: new URL('/icon-512.png', site).href,
+  parentOrganization: { '@id': `${site.href}#organisation` },
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: entreprise.siege.rue,
+    postalCode: entreprise.siege.codePostal,
+    addressLocality: entreprise.siege.ville,
+    addressRegion: 'Île-de-France',
+    addressCountry: entreprise.siege.pays,
+  },
+  areaServed: zones
+    .filter((z) => z.couvert)
+    .map((z) => ({ '@type': 'AdministrativeArea', name: `${z.nom} (${z.code})` })),
+  knowsAbout: ['FTTH', 'Raccordement fibre optique', 'Réflectométrie OTDR', 'Maintenance de réseaux optiques'],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Prestations fibre optique',
+    itemListElement: prestations.map((p) => ({
+      '@type': 'Offer',
+      itemOffered: { '@type': 'Service', name: p.titre, description: p.resume },
+    })),
+  },
+  ...(contact.telephone ? { telephone: contact.telephone.international } : {}),
+  ...(contact.email ? { email: contact.email } : {}),
+  ...(contact.googleBusinessProfile ? { sameAs: [contact.googleBusinessProfile] } : {}),
+};
+---
+<BaseLayout title={seo.accueil.title} description={seo.accueil.description} jsonLd={[localBusiness]}>
+  <Hero />
+  <Reassurance />
+  <Services />
+  <Process />
+  <DonneursOrdre />
+  <ZoneMap />
+  <Faq />
+  <ContactForm />
+</BaseLayout>

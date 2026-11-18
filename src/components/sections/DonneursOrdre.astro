@@ -1,0 +1,67 @@
+---
+import Icon from '~/components/icons/Icon.astro';
+import SectionTitre from '~/components/ui/SectionTitre.astro';
+import { nombreTechniciens, piecesAdministratives, qualifications, zones } from '~/content/site-config';
+
+const pieces = piecesAdministratives.filter((p) => p.disponible);
+const habilitations = qualifications.filter((q) => q.detenue);
+const nbZones = zones.filter((z) => z.couvert).length;
+---
+<section id="donneurs-ordre" aria-labelledby="do-titre" class="bg-nuit py-16 text-white md:py-24">
+  <div class="conteneur">
+    <SectionTitre sombre numero="03" repere="Donneurs d’ordre" titre="Un sous-traitant que vous pouvez référencer" id="do-titre">
+      Intégrateurs, opérateurs, exploitants de RIP : ce dont votre service achats ou sous-traitance a besoin,
+      sans relance.
+    </SectionTitre>
+
+    <div class="mt-12 grid gap-px overflow-hidden rounded-md border border-nuit-700 bg-nuit-700 lg:grid-cols-3">
+      <div class="apparait bg-nuit p-6 sm:p-8">
+        <Icon name="document" class="size-7 text-orange" />
+        <h3 class="mt-4 text-xl font-bold !text-white">Dossier administratif</h3>
+        <p class="mt-2 text-brume">Envoyé sous forme de dossier unique, à jour, dès la demande de référencement.</p>
+        <ul class="mt-5 space-y-2.5 text-[0.95rem]">
+          {pieces.map((p) => (
+            <li class="flex gap-2.5"><Icon name="check" class="mt-1 size-4 shrink-0 text-orange" />{p.libelle}</li>
+          ))}
+        </ul>
+        {habilitations.length > 0 && (
+          <>
+            <p class="repere mt-6 text-brume">Habilitations</p>
+            <ul class="mt-3 space-y-2 text-[0.95rem]">
+              {habilitations.map((h) => <li class="flex gap-2.5"><Icon name="check" class="mt-1 size-4 shrink-0 text-orange" />{h.libelle}</li>)}
+            </ul>
+          </>
+        )}
+      </div>
+
+      <div class="apparait bg-nuit p-6 sm:p-8">
+        <Icon name="rapport" class="size-7 text-orange" />
+        <h3 class="mt-4 text-xl font-bold !text-white">Facturation et suivi</h3>
+        <ul class="mt-5 space-y-3 text-[0.95rem] text-brume">
+          <li><strong class="font-medium text-white">Sur bon de commande</strong> ou cadre de sous-traitance du donneur d’ordre.</li>
+          <li><strong class="font-medium text-white">Rythme au choix :</strong> à l’intervention ou mensuel, avec l’état des interventions réalisées.</li>
+          <li><strong class="font-medium text-white">Traçabilité :</strong> chaque ligne facturée renvoie à une référence d’intervention et à son compte rendu.</li>
+          <li><strong class="font-medium text-white">Vos outils :</strong> saisie dans votre plateforme ou vos fichiers de suivi si vous en imposez.</li>
+        </ul>
+      </div>
+
+      <div class="apparait bg-nuit p-6 sm:p-8">
+        <Icon name="calendrier" class="size-7 text-orange" />
+        <h3 class="mt-4 text-xl font-bold !text-white">Capacité et disponibilité</h3>
+        <ul class="mt-5 space-y-3 text-[0.95rem] text-brume">
+          {nombreTechniciens !== null && (
+            <li><strong class="font-medium text-white">{nombreTechniciens} technicien{nombreTechniciens > 1 ? 's' : ''}</strong> mobilisables sur l’Île-de-France.</li>
+          )}
+          <li><strong class="font-medium text-white">{nbZones} départements</strong> couverts en Île-de-France.</li>
+          <li><strong class="font-medium text-white">Démarrage progressif :</strong> nous commençons sur un lot test pour que vous jugiez la qualité avant d’augmenter le volume.</li>
+          <li><strong class="font-medium text-white">Volume annoncé, volume tenu :</strong> nous vous disons à l’avance ce que nous pouvons absorber chaque semaine, et nous nous y tenons.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-10 flex flex-col items-start gap-4 sm:flex-row sm:items-center">
+      <a href="#contact" class="btn-orange">Demander notre dossier de référencement<Icon name="fleche" class="size-5" /></a>
+      <p class="text-sm text-brume">Réponse avec le dossier complet en pièces jointes.</p>
+    </div>
+  </div>
+</section>

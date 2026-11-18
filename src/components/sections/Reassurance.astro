@@ -1,0 +1,37 @@
+---
+/**
+ * Bandeau de réassurance : uniquement des éléments vérifiables.
+ * Les qualifications s'ajoutent d'elles-mêmes quand `detenue: true` dans site-config.
+ */
+import Icon from '~/components/icons/Icon.astro';
+import { contact, entreprise, qualifications } from '~/content/site-config';
+
+type Item = { icone: 'document' | 'check' | 'horloge' | 'rapport' | 'repere'; titre: string; detail: string };
+
+const items: Item[] = [
+  { icone: 'document', titre: 'Société immatriculée', detail: `SIREN ${entreprise.siren} · RCS Paris` },
+  { icone: 'check', titre: 'Dossier administratif', detail: 'Kbis, URSSAF et fiscal fournis sur demande' },
+  ...qualifications
+    .filter((q) => q.detenue)
+    .map((q): Item => ({ icone: 'check', titre: q.libelle, detail: q.detail })),
+  ...(contact.delaiReponse.confirme
+    ? [{ icone: 'horloge', titre: contact.delaiReponse.texte, detail: contact.horaires } satisfies Item]
+    : []),
+  { icone: 'rapport', titre: 'Compte rendu systématique', detail: 'Photos et mesures à chaque intervention' },
+];
+---
+<section aria-label="Garanties" class="border-b border-filet bg-surface">
+  <ul class="conteneur grid grid-cols-1 gap-x-8 gap-y-5 py-7 sm:grid-cols-2 lg:grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]">
+    {items.map((i) => (
+      <li class="flex items-start gap-3">
+        <span class="mt-0.5 flex size-9 shrink-0 items-center justify-center rounded-md bg-white text-nuit ring-1 ring-filet">
+          <Icon name={i.icone} class="size-5" />
+        </span>
+        <span>
+          <span class="block font-display font-bold text-nuit">{i.titre}</span>
+          <span class="block text-sm text-ardoise">{i.detail}</span>
+        </span>
+      </li>
+    ))}
+  </ul>
+</section>
